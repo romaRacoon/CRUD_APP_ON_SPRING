@@ -8,15 +8,26 @@ import web.model.User;
 import web.service.UserService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @GetMapping()
     public String getAllUsers(Model model) {
-        userService.add(new User("Roma"));
         model.addAttribute("users", userService.getAllUsers());
         return "users";
+    }
+
+    @GetMapping("/new")
+    public String newUser(Model model) {
+        model.addAttribute("user", new User());
+        return "new";
+    }
+
+    @PostMapping()
+    public String add(@ModelAttribute("user") User user) {
+        userService.add(user);
+        return "redirect:/users";
     }
 }
