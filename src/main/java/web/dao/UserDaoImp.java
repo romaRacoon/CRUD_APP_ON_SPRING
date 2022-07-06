@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -19,8 +20,11 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void delete(User user) {
-        entityManager.remove(user);
+    public void delete(int id) {
+        User user = entityManager.find(User.class, id);
+        if (user != null) {
+            entityManager.remove(user);
+        }
     }
 
     @Override
@@ -30,7 +34,15 @@ public class UserDaoImp implements UserDao {
 
     @Override
     @Transactional(readOnly = true)
+    @SuppressWarnings("unchecked")
     public List<User> getAllUsers() {
-        return entityManager.createNativeQuery("from User").getResultList();
+        String command = "FROM User";
+        Query query = entityManager.createQuery(command);
+        return query.getResultList();
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return entityManager.find(User.class, id);
     }
 }

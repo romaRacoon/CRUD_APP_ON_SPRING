@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>users</title>
 </head>
 <body>
-<a>asdghasdgj</a>
+<div th:each="user: ${users}">
+    <table th:border="10" th:width="500" th:height="300" th:align="center">
+        <tr>
+            <td th:text="${user.getName()}">
+                Model
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
