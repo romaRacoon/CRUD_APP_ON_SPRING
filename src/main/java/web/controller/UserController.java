@@ -13,37 +13,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public String listUsers(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
-        return "users";
+    @GetMapping()
+    public String getAllUsers(Model model) {
+        model.addAttribute("users",userService.getAllUsers());
+        return "index";
     }
 
-    @GetMapping("/add")
-    public String addUser(@RequestParam("name") String name, Model model) {
-        User user = new User(name);
+    @GetMapping("/{id}")
+    public String getUser(@PathVariable("id") int id, Model model) {
+        model.addAttribute("user", userService.getUserById(id));
+        return "show";
+    }
+
+    @GetMapping("/new")
+    public String newUser(Model model) {
+        model.addAttribute("user", new User());
+        return "new";
+    }
+
+    @PostMapping()
+    public String create(@ModelAttribute("user") User user) {
         userService.add(user);
-        model.addAttribute("addUser", user);
-        return "add";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String editUser(@PathVariable("id") int id,
-                           @RequestParam("name") String name,
-                           Model model) {
-        User user = userService.getUserById(id);
-        user.setName(name);
-        userService.update(user);
-        model.addAttribute("editUser", user);
-        return "edit";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String deleteUser(@PathVariable("id") int id,
-                             Model model) {
-        User user = userService.getUserById(id);
-        userService.delete(id);
-        model.addAttribute("deleteUser", user);
-        return "delete";
+        return "redirect:/users";
     }
 }
