@@ -36,4 +36,18 @@ public class UserController {
         userService.add(user);
         return "redirect:/users";
     }
+
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable("id") int id, @RequestParam("name") String name) {
+        User newUser = userService.getUserById(id);
+        newUser.setName(name);
+        userService.update(newUser);
+        return "redirect:/users";
+    }
+
+    @GetMapping("/{id}/delete")
+    public String delete(@PathVariable("id") int id) {
+        userService.delete(id);
+        return "redirect:/users";
+    }
 }
