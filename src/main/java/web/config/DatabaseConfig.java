@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories("web.repository")
+@EnableJpaRepositories("web.dao")
 @EnableTransactionManagement
 @ComponentScan("web")
 @PropertySource("classpath:db.properties")

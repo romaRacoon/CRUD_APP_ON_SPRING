@@ -6,7 +6,14 @@
 </head>
 <body>
 <div th:each="user : ${users}">
-    <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.getName()}">User</a>
+    <a th:text="${user.getName()}">User</a>
+    <a th:href="@{/users/{id}/edit(id=${user.getId()})}">edit</a>
+    <form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+        <input type="submit" value="delete">
+    </form>
 </div>
+
+<br/>
+<hr/>
 </body>
 </html>
